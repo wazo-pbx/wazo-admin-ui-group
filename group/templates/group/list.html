@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block content_header %}
+  {{ build_breadcrumb('Groups', '', 'users', ['List']) }}
+{% endblock %}
+
+{% block content %}
+  <section class="content">
+    {% call build_list_containers('Group', 'users') %}
+      {% call build_list_table() %}
+        {% call build_list_table_headers() %}
+          <th>Name</th>
+          {{ add_list_table_header_action() }}
+        {% endcall %}
+      {% endcall %}
+    {% endcall %}
+
+    {% call build_hidden_add_containers('Add Group') %}
+      {% call build_form() %}
+        {% call add_default_fields(form=form, submit_value="Add") %}
+	      {{ render_field(form.name) }}
+        {% endcall %}
+      {% endcall %}
+    {% endcall %}
+  </section>
+{% endblock %}
