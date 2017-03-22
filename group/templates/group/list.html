@@ -19,8 +19,13 @@
       {% call build_form() %}
         {% call add_default_fields(form=form, submit_value="Add") %}
 	      {{ render_field(form.name) }}
+	      {{ render_field(form.users) }}
         {% endcall %}
       {% endcall %}
     {% endcall %}
   </section>
+{% endblock %}
+
+{% block additional_js %}
+  {% include 'voicemail/js.html' %}
 {% endblock %}

@@ -35,6 +35,10 @@ class GroupView(BaseView):
     def index(self):
         return super(GroupView, self).index()
 
+    def _map_resources_to_form(self, resources):
+        users = [user['uuid'] for user in resources['group']['members']['users']]
+        return self.form(data=resources['group'], users=users)
+
 
 class GroupDestinationView(BaseDestinationView):
 
