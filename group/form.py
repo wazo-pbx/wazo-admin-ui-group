@@ -6,10 +6,20 @@ from flask_wtf import FlaskForm
 
 from wtforms.fields import SubmitField
 from wtforms.fields import TextField
+from wtforms.fields import SelectField
 
 from wtforms.validators import InputRequired
+
+from wazo_admin_ui.helpers.destination import DestinationHiddenField
 
 
 class GroupForm(FlaskForm):
     name = TextField('Name', [InputRequired()])
     submit = SubmitField('Submit')
+
+class GroupDestinationForm(FlaskForm):
+    setted_value_template = '{group_name}'
+
+    group_id = SelectField('Group', choices=[])
+    ring_time = TextField('Ring Time')
+    group_name = DestinationHiddenField()
