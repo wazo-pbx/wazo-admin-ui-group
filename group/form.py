@@ -4,15 +4,15 @@
 
 from flask_wtf import FlaskForm
 
-from wtforms.fields import SubmitField
-from wtforms.fields import TextField
-from wtforms.fields import SelectField
-from wtforms.fields import SelectMultipleField
-from wtforms.fields import BooleanField
-
+from wtforms.fields import (SubmitField,
+                            FormField,
+                            TextField,
+                            SelectField,
+                            SelectMultipleField,
+                            BooleanField)
 from wtforms.validators import InputRequired
 
-from wazo_admin_ui.helpers.destination import DestinationHiddenField
+from wazo_admin_ui.helpers.destination import FallbacksForm, DestinationHiddenField
 
 
 class GroupForm(FlaskForm):
@@ -29,6 +29,7 @@ class GroupForm(FlaskForm):
     ring_strategy = SelectField('Ring strategy', choices=[('all', 'All')])
     timeout = TextField('Timeout')
     user_timeout = TextField('User timeout')
+    fallbacks = FormField(FallbacksForm)
     submit = SubmitField('Submit')
 
 class GroupDestinationForm(FlaskForm):
