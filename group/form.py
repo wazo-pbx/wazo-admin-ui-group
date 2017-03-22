@@ -16,6 +16,7 @@ from wazo_admin_ui.helpers.destination import DestinationHiddenField
 
 class GroupForm(FlaskForm):
     name = TextField('Name', [InputRequired()])
+    extension = TextField('Extension')
     users = SelectMultipleField('Members', choices=[])
     submit = SubmitField('Submit')
 

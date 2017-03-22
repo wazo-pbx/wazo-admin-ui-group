@@ -10,7 +10,26 @@
       {% call build_list_table() %}
         {% call build_list_table_headers() %}
           <th>Name</th>
+          <th>Extension</th>
           {{ add_list_table_header_action() }}
+        {% endcall %}
+        {% call(group) build_list_table_rows(resource_list['items']) %}
+          <td>{{ group.name }}</td>
+          <td>
+            {% for extension in group.extensions %}
+              <strong>{{ _('internal') }}:</strong> {{ extension.exten }}
+            {% endfor %}
+            {% for extensions in group.incalls %}
+              {% for extension in extensions.extensions %}
+                <strong>{{ _('incall') }}:</strong> {{ extension.exten }}
+              {% endfor %}
+            {% endfor %}
+            {{ '-' if not group.extensions and not group.incalls }}
+          </td>
+          <td>
+            {{ add_edit_button(href=url_for('.GroupView:get', id=group.id)) }}
+            {{ add_delete_button(href=url_for('.GroupView:delete', id=group.id)) }}
+          </td>
         {% endcall %}
       {% endcall %}
     {% endcall %}
@@ -19,6 +38,7 @@
       {% call build_form() %}
         {% call add_default_fields(form=form, submit_value="Add") %}
 	      {{ render_field(form.name) }}
+              {{ render_field(form.extension) }}
 	      {{ render_field(form.users) }}
         {% endcall %}
       {% endcall %}
@@ -27,5 +47,5 @@
 {% endblock %}
 
 {% block additional_js %}
-  {% include 'voicemail/js.html' %}
+  {% include 'group/js.html' %}
 {% endblock %}
