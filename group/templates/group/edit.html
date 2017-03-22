@@ -9,6 +9,8 @@
     {% call build_form(action=url_for('.GroupView:put', id=resources.group.uuid)) %}
       {% call add_default_fields(form=form, submit_value="Update") %}
 	    {{ render_field(form.name) }}
+	    {{ render_field(form.extension) }}
+	    {{ render_field(form.users) }}
       {% endcall %}
     {% endcall %}
   {% endcall %}

@@ -19,10 +19,16 @@ class GroupSchema(BaseSchema):
         fields = extract_form_fields(GroupForm)
 
 
+class ExtensionSchema(BaseSchema):
+    context = fields.String(default='default')
+    exten = fields.String(attribute='extension')
+
+
 class AggregatorSchema(BaseAggregatorSchema):
     _main_resource = 'group'
 
     group = fields.Nested(GroupSchema)
+    extension = fields.Nested(ExtensionSchema)
 
 
 class GroupView(BaseView):
@@ -36,8 +42,10 @@ class GroupView(BaseView):
         return super(GroupView, self).index()
 
     def _map_resources_to_form(self, resources):
+        schema = self.schema()
         users = [user['uuid'] for user in resources['group']['members']['users']]
-        return self.form(data=resources['group'], users=users)
+        main_exten = schema.get_main_exten(resources['group'].get('extensions', {}))
+        return self.form(data=resources['group'], extension=main_exten, users=users)
 
 
 class GroupDestinationView(BaseDestinationView):
