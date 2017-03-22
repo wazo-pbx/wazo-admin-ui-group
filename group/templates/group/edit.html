@@ -11,6 +11,16 @@
 	    {{ render_field(form.name) }}
 	    {{ render_field(form.extension) }}
 	    {{ render_field(form.users) }}
+            {{ render_field(form.caller_id_mode) }}
+            {{ render_field(form.caller_id_name) }}
+            {{ render_field(form.enabled) }}
+            {{ render_field(form.music_on_hold) }}
+            {{ render_field(form.preprocess_subroutine) }}
+            {{ render_field(form.retry_delay) }}
+            {{ render_field(form.ring_in_use) }}
+            {{ render_field(form.ring_strategy) }}
+            {{ render_field(form.timeout) }}
+            {{ render_field(form.user_timeout) }}
       {% endcall %}
     {% endcall %}
   {% endcall %}
