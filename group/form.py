@@ -6,7 +6,7 @@ from flask_wtf import FlaskForm
 
 from wtforms.fields import (SubmitField,
                             FormField,
-                            TextField,
+                            StringField,
                             SelectField,
                             SelectMultipleField,
                             BooleanField)
@@ -16,25 +16,26 @@ from wazo_admin_ui.helpers.destination import FallbacksForm, DestinationHiddenFi
 
 
 class GroupForm(FlaskForm):
-    name = TextField('Name', [InputRequired()])
-    extension = TextField('Extension')
+    name = StringField('Name', [InputRequired()])
+    extension = StringField('Extension')
     users = SelectMultipleField('Members', choices=[])
     caller_id_mode = SelectField('Callerid mode', choices=[('prepend', 'Prepend')])
-    caller_id_name = TextField('Callerid name')
+    caller_id_name = StringField('Callerid name')
     enabled = BooleanField('Enabled')
-    music_on_hold = TextField('Music On Hold')
-    preprocess_subroutine = TextField('Subroutine')
-    retry_delay = TextField('Retry delay')
+    music_on_hold = StringField('Music On Hold')
+    preprocess_subroutine = StringField('Subroutine')
+    retry_delay = StringField('Retry delay')
     ring_in_use = BooleanField('Ring in use')
     ring_strategy = SelectField('Ring strategy', choices=[('all', 'All')])
-    timeout = TextField('Timeout')
-    user_timeout = TextField('User timeout')
+    timeout = StringField('Timeout')
+    user_timeout = StringField('User timeout')
     fallbacks = FormField(FallbacksForm)
     submit = SubmitField('Submit')
+
 
 class GroupDestinationForm(FlaskForm):
     setted_value_template = '{group_name}'
 
     group_id = SelectField('Group', choices=[])
-    ring_time = TextField('Ring Time')
+    ring_time = StringField('Ring Time')
     group_name = DestinationHiddenField()
