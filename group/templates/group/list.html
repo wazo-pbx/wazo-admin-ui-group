@@ -39,13 +39,9 @@
         {% call add_default_fields(form=form, submit_value="Add") %}
 	      {{ render_field(form.name) }}
               {{ render_field(form.extension) }}
-	      {{ render_field(form.users) }}
+	      {{ render_field(form.users, data_listing_href=url_for(listing_urls['uuid_user'])) }}
         {% endcall %}
       {% endcall %}
     {% endcall %}
   </section>
-{% endblock %}
-
-{% block additional_js %}
-  {% include 'group/js.html' %}
 {% endblock %}

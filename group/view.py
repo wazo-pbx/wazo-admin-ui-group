@@ -45,23 +45,25 @@ class GroupView(BaseView):
         schema = self.schema()
         users = [user['uuid'] for user in resources['group']['members']['users']]
         main_exten = schema.get_main_exten(resources['group'].get('extensions', {}))
-        return self.form(data=resources['group'], extension=main_exten, users=users)
+        form = self.form(data=resources['group'], extension=main_exten, users=users)
+        form.users.choices = self._build_setted_choices(resources['group']['members']['users'])
+        return form
+
+    def _build_setted_choices(self, users):
+        results = []
+        for user in users:
+            if user.get('lastname'):
+                text = '{} {}'.format(user.get('firstname'), user['lastname'])
+            else:
+                text = user.get('firstname')
+            results.append((user['uuid'], text))
+        return results
 
 
 class GroupDestinationView(BaseDestinationView):
 
     def list_json(self):
-        return self._list_json('id')
-
-    def uuid_list_json(self):
-        return self._list_json('uuid')
-
-    def _list_json(self, field_id):
         params = self._extract_params()
         groups = self.service.list(**params)
-        results = []
-        for group in groups['items']:
-            text = '{}'.format(group['name'])
-            results.append({'id': group[field_id], 'text': text})
-
+        results = [{'id': group['id'], 'text': group['name']} for group in groups['items']]
         return self._select2_response(results, groups['total'], params)
