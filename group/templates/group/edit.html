@@ -13,7 +13,7 @@
         {{ add_tab_navigation_item('fallbacks', 'Fallbacks') }}
       {% endcall %}
 
-    {% call build_form(action=url_for('.GroupView:put', id=resources.group.uuid)) %}
+    {% call build_form(action=url_for('.GroupView:put', id=resources.group.id)) %}
       {% call build_tabs_content() %}
 
         {% call build_tab_content_item('general', active=True) %}
