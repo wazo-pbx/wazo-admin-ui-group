@@ -19,14 +19,27 @@ class GroupForm(FlaskForm):
     name = StringField('Name', [InputRequired()])
     extension = StringField('Extension')
     users = SelectMultipleField('Members', choices=[])
-    caller_id_mode = SelectField('Callerid mode', choices=[('prepend', 'Prepend')])
+    caller_id_mode = SelectField('Callerid mode', choices=[
+                                                      ('', 'None'),
+                                                      ('prepend', 'Prepend'),
+                                                      ('overwrite', 'Overwrite'),
+                                                      ('append', 'Append')
+                                                  ])
     caller_id_name = StringField('Callerid name')
     enabled = BooleanField('Enabled')
     music_on_hold = StringField('Music On Hold')
     preprocess_subroutine = StringField('Subroutine')
     retry_delay = StringField('Retry delay')
     ring_in_use = BooleanField('Ring in use')
-    ring_strategy = SelectField('Ring strategy', choices=[('all', 'All')])
+    ring_strategy = SelectField('Ring strategy', choices=[
+                                                     ('all', 'All'),
+                                                     ('random', 'Random'),
+                                                     ('least_recent', 'Least recent'),
+                                                     ('linear', 'Linear'),
+                                                     ('fewest_calls', 'Fewest calls'),
+                                                     ('memorized_round_robin', 'Memorized round robin'),
+                                                     ('weight_random', 'Weight random')
+                                                 ])
     timeout = StringField('Timeout')
     user_timeout = StringField('User timeout')
     fallbacks = FormField(FallbacksForm)
