@@ -22,12 +22,16 @@ class GroupService(BaseConfdExtensionService):
     def _update_members(self, resources, resource=None):
         group = resources.get(self.resource_name)
         members = group.get('users')
+        fallbacks = group.get('fallbacks')
 
         if resource == None:
             resource = group['id']
 
         if members:
             self._update_members_to_group(resource, self._generate_users(members))
+
+        if fallbacks:
+            self._update_fallbacks_to_group(resource, fallbacks)
 
     def _update_members_to_group(self, group, members):
         return self._confd.groups.relations(group).update_user_members(members)
