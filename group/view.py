@@ -10,10 +10,14 @@ from marshmallow import fields
 from wazo_admin_ui.helpers.classful import BaseView, BaseDestinationView
 from wazo_admin_ui.helpers.mallow import BaseSchema, BaseAggregatorSchema, extract_form_fields
 
+from wazo_admin_ui.helpers.destination import FallbacksSchema
+
 from .form import GroupForm
 
 
 class GroupSchema(BaseSchema):
+
+    fallbacks = fields.Nested(FallbacksSchema)
 
     class Meta:
         fields = extract_form_fields(GroupForm)
@@ -43,9 +47,10 @@ class GroupView(BaseView):
 
     def _map_resources_to_form(self, resources):
         schema = self.schema()
+        data = self.schema().load(resources).data
         users = [user['uuid'] for user in resources['group']['members']['users']]
         main_exten = schema.get_main_exten(resources['group'].get('extensions', {}))
-        form = self.form(data=resources['group'], extension=main_exten, users=users)
+        form = self.form(data=data['group'], extension=main_exten, users=users)
         form.users.choices = self._build_setted_choices(resources['group']['members']['users'])
         return form
 
