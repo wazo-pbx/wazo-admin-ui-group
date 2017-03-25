@@ -13,6 +13,7 @@ class GroupService(BaseConfdExtensionService):
 
     def create(self, resources):
         resource = super(GroupService, self).create(resources)
+        del resources['group']['fallbacks']
         self._update_members(resources, resource)
 
     def update(self, resources):
