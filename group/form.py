@@ -18,6 +18,7 @@ from wazo_admin_ui.helpers.destination import FallbacksForm, DestinationHiddenFi
 class GroupForm(FlaskForm):
     name = StringField('Name', [InputRequired()])
     extension = StringField('Extension')
+    context = SelectField('Context', choices=[])
     users = SelectMultipleField('Members', choices=[])
     caller_id_mode = SelectField('Callerid mode', choices=[
                                                       ('', 'None'),

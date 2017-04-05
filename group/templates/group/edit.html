@@ -20,6 +20,7 @@
           {% call add_default_fields(form=form, submit_value="Update") %}
 	    {{ render_field(form.name) }}
 	    {{ render_field(form.extension) }}
+	    {{ render_field(form.context, data_listing_href=url_for(listing_urls['contexts'], type='internal')) }}
             {{ render_field(form.caller_id_mode) }}
             {{ render_field(form.caller_id_name) }}
             {{ render_field(form.enabled) }}
