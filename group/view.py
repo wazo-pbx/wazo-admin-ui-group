@@ -24,7 +24,6 @@ class GroupSchema(BaseSchema):
 
 
 class ExtensionSchema(BaseSchema):
-    context = fields.String(default='default')
     exten = fields.String(attribute='extension')
 
 
