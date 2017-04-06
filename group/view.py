@@ -51,6 +51,7 @@ class GroupView(BaseView):
         main_exten = schema.get_main_exten(resources['group'].get('extensions', {}))
         form = self.form(data=data['group'], extension=main_exten, users=users)
         form.users.choices = self._build_setted_choices(resources['group']['members']['users'])
+        form.context.choices = self._build_setted_choices_context(resources['group'].get('extensions'))
         return form
 
     def _build_setted_choices(self, users):
@@ -61,6 +62,13 @@ class GroupView(BaseView):
             else:
                 text = user.get('firstname')
             results.append((user['uuid'], text))
+        return results
+
+    def _build_setted_choices_context(self, extensions):
+        results = []
+        for extension in extensions:
+            if extension.get('context'):
+                results.append((extension['context'], extension['context']))
         return results
 
 
