@@ -4,10 +4,12 @@
 
 from __future__ import unicode_literals
 
+from flask import jsonify, request
 from flask_menu.classy import classy_menu_item
 from marshmallow import fields
 
-from wazo_admin_ui.helpers.classful import BaseView, BaseDestinationView
+from wazo_admin_ui.helpers.classful import BaseView, LoginRequiredView
+from wazo_admin_ui.helpers.classful import extract_select2_params, build_select2_response
 from wazo_admin_ui.helpers.mallow import BaseSchema, BaseAggregatorSchema, extract_form_fields
 
 from wazo_admin_ui.helpers.destination import FallbacksSchema
@@ -72,10 +74,10 @@ class GroupView(BaseView):
         return results
 
 
-class GroupDestinationView(BaseDestinationView):
+class GroupDestinationView(LoginRequiredView):
 
     def list_json(self):
-        params = self._extract_params()
+        params = extract_select2_params(request.args)
         groups = self.service.list(**params)
         results = [{'id': group['id'], 'text': group['name']} for group in groups['items']]
-        return self._select2_response(results, groups['total'], params)
+        return jsonify(build_select2_response(results, groups['total'], params))
