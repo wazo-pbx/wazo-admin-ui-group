@@ -27,6 +27,7 @@ class GroupSchema(BaseSchema):
 
 class ExtensionSchema(BaseSchema):
     exten = fields.String(attribute='extension')
+    context = fields.String(attribute='context')
 
 
 class AggregatorSchema(BaseAggregatorSchema):
