@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-  {% call build_tabs_containers() %}
+  {% call build_form_tabs_box() %}
       {% call build_tabs_navigation() %}
         {{ add_tab_navigation_header('Group', resources.group.name, 'users') }}
         {{ add_tab_navigation_item('general', 'General', active=True) }}
