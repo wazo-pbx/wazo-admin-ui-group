@@ -48,7 +48,7 @@ class GroupForm(FlaskForm):
 
 
 class GroupDestinationForm(FlaskForm):
-    setted_value_template = '{group_name}'
+    setted_value_template = u'{group_name}'
 
     group_id = SelectField('Group', choices=[])
     ring_time = StringField('Ring Time')
