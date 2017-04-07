@@ -11,7 +11,6 @@ class GroupService(BaseConfdExtensionService):
     resource_name = 'group'
     resource_confd = 'groups'
 
-
     def create(self, resources):
         resource = super(GroupService, self).create(resources)
         del resources['group']['fallbacks']
@@ -26,7 +25,7 @@ class GroupService(BaseConfdExtensionService):
         members = group.get('users')
         fallbacks = group.get('fallbacks')
 
-        if resource == None:
+        if resource is None:
             resource = group['id']
 
         if members:
