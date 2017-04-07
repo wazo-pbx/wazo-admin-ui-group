@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0+
 
 from wazo_admin_ui.helpers.service import BaseConfdExtensionService
+from wazo_admin_ui.helpers.confd import confd
 
 
 class GroupService(BaseConfdExtensionService):
@@ -35,10 +36,10 @@ class GroupService(BaseConfdExtensionService):
             self._update_fallbacks_to_group(resource, fallbacks)
 
     def _update_members_to_group(self, group, members):
-        return self._confd.groups.relations(group).update_user_members(members)
+        return confd.groups.relations(group).update_user_members(members)
 
     def _update_fallbacks_to_group(self, group, fallbacks):
-        return self._confd.groups.relations(group).update_fallbacks(fallbacks)
+        return confd.groups.relations(group).update_fallbacks(fallbacks)
 
     def _generate_users(self, users):
         return [{'uuid': user} for user in users]
