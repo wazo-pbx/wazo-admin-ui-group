@@ -28,7 +28,7 @@ class GroupForm(FlaskForm):
                                                   ])
     caller_id_name = StringField('Callerid name')
     enabled = BooleanField('Enabled')
-    music_on_hold = StringField('Music On Hold')
+    music_on_hold = SelectField('Music On Hold', choices=[])
     preprocess_subroutine = StringField('Subroutine')
     retry_delay = StringField('Retry delay')
     ring_in_use = BooleanField('Ring in use')

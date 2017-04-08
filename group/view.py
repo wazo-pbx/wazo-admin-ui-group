@@ -55,6 +55,7 @@ class GroupView(BaseView):
         form = self.form(data=data['group'], extension=main_exten, users=users)
         form.users.choices = self._build_setted_choices(resources['group']['members']['users'])
         form.context.choices = self._build_setted_choices_context(resources['group'].get('extensions'))
+        form.music_on_hold.choices = self._build_setted_choices_moh(resources['group'].get('music_on_hold'))
         return form
 
     def _build_setted_choices(self, users):
@@ -73,6 +74,9 @@ class GroupView(BaseView):
             if extension.get('context'):
                 results.append((extension['context'], extension['context']))
         return results
+
+    def _build_setted_choices_moh(self, moh):
+        return [(moh, moh)]
 
 
 class GroupDestinationView(LoginRequiredView):
