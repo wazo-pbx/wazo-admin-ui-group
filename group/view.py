@@ -6,55 +6,27 @@ from __future__ import unicode_literals
 
 from flask import jsonify, request
 from flask_menu.classy import classy_menu_item
-from marshmallow import fields
 
 from wazo_admin_ui.helpers.classful import BaseView, LoginRequiredView
 from wazo_admin_ui.helpers.classful import extract_select2_params, build_select2_response
-from wazo_admin_ui.helpers.mallow import BaseSchema, BaseAggregatorSchema, extract_form_fields
-
-from wazo_admin_ui.helpers.destination import FallbacksSchema
 
 from .form import GroupForm
-
-
-class GroupSchema(BaseSchema):
-
-    fallbacks = fields.Nested(FallbacksSchema)
-
-    class Meta:
-        fields = extract_form_fields(GroupForm)
-
-
-class ExtensionSchema(BaseSchema):
-    exten = fields.String(attribute='extension')
-    context = fields.String(attribute='context')
-
-
-class AggregatorSchema(BaseAggregatorSchema):
-    _main_resource = 'group'
-
-    group = fields.Nested(GroupSchema)
-    extension = fields.Nested(ExtensionSchema)
 
 
 class GroupView(BaseView):
 
     form = GroupForm
     resource = 'group'
-    schema = AggregatorSchema
 
     @classy_menu_item('.groups', 'Groups', order=1, icon="users")
     def index(self):
         return super(GroupView, self).index()
 
     def _map_resources_to_form(self, resources):
-        schema = self.schema()
-        data = self.schema().load(resources).data
         users = [user['uuid'] for user in resources['group']['members']['users']]
-        main_exten = schema.get_main_exten(resources['group'].get('extensions', {}))
-        form = self.form(data=data['group'], extension=main_exten, users=users)
+        form = self.form(data=resources['group'], users=users)
         form.users.choices = self._build_setted_choices(resources['group']['members']['users'])
-        form.context.choices = self._build_setted_choices_context(resources['group'].get('extensions'))
+        form.extensions[0].context.choices = self._build_setted_choices_context(resources['group'].get('extensions'))
         form.music_on_hold.choices = self._build_setted_choices_moh(resources['group'].get('music_on_hold'))
         return form
 
@@ -77,6 +49,19 @@ class GroupView(BaseView):
 
     def _build_setted_choices_moh(self, moh):
         return [(moh, moh)]
+
+    def _map_form_to_resources(self, form, form_id=None):
+        group = form.to_dict()
+        resources = {'group': group,
+                     'extension': group['extensions'][0]}
+        if form_id:
+            resources['group']['id'] = form_id
+        return resources
+
+    def _map_resources_to_form_errors(self, form, resources):
+        form.populate_errors(resources.get('group', {}))
+        form.extensions[0].populate_errors(resources.get('extension', {}))
+        return form
 
 
 class GroupDestinationView(LoginRequiredView):

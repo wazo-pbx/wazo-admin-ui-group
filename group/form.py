@@ -2,9 +2,8 @@
 # Copyright 2017 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0+
 
-from flask_wtf import FlaskForm
-
 from wtforms.fields import (SubmitField,
+                            FieldList,
                             FormField,
                             StringField,
                             SelectField,
@@ -13,12 +12,17 @@ from wtforms.fields import (SubmitField,
 from wtforms.validators import InputRequired
 
 from wazo_admin_ui.helpers.destination import FallbacksForm, DestinationHiddenField
+from wazo_admin_ui.helpers.form import BaseForm
 
 
-class GroupForm(FlaskForm):
-    name = StringField('Name', [InputRequired()])
-    extension = StringField('Extension')
+class ExtensionForm(BaseForm):
+    exten = StringField('Extension')
     context = SelectField('Context', choices=[])
+
+
+class GroupForm(BaseForm):
+    name = StringField('Name', [InputRequired()])
+    extensions = FieldList(FormField(ExtensionForm), min_entries=1)
     users = SelectMultipleField('Members', choices=[])
     caller_id_mode = SelectField('Callerid mode', choices=[
                                                       ('', 'None'),
@@ -47,7 +51,7 @@ class GroupForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
-class GroupDestinationForm(FlaskForm):
+class GroupDestinationForm(BaseForm):
     setted_value_template = u'{group_name}'
 
     group_id = SelectField('Group', choices=[])
