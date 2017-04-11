@@ -22,12 +22,12 @@ class GroupView(BaseView):
     def index(self):
         return super(GroupView, self).index()
 
-    def _map_resources_to_form(self, resources):
-        users = [user['uuid'] for user in resources['group']['members']['users']]
-        form = self.form(data=resources['group'], users=users)
-        form.users.choices = self._build_setted_choices(resources['group']['members']['users'])
-        form.extensions[0].context.choices = self._build_setted_choices_context(resources['group'].get('extensions'))
-        form.music_on_hold.choices = self._build_setted_choices_moh(resources['group'].get('music_on_hold'))
+    def _map_resources_to_form(self, resource):
+        users = [user['uuid'] for user in resource['members']['users']]
+        form = self.form(data=resource, users=users)
+        form.users.choices = self._build_setted_choices(resource['members']['users'])
+        form.extensions[0].context.choices = self._build_setted_choices_context(resource.get('extensions'))
+        form.music_on_hold.choices = self._build_setted_choices_moh(resource.get('music_on_hold'))
         return form
 
     def _build_setted_choices(self, users):
@@ -49,14 +49,6 @@ class GroupView(BaseView):
 
     def _build_setted_choices_moh(self, moh):
         return [(moh, moh)]
-
-    def _map_form_to_resources(self, form, form_id=None):
-        group = form.to_dict()
-        resources = {'group': group,
-                     'extension': group['extensions'][0]}
-        if form_id:
-            resources['group']['id'] = form_id
-        return resources
 
     def _map_resources_to_form_errors(self, form, resources):
         form.populate_errors(resources.get('group', {}))

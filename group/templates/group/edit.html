@@ -8,13 +8,13 @@
   {% call build_section_row() %}
     {% call build_form_tabs_box() %}
         {% call build_tabs_navigation() %}
-          {{ add_tab_navigation_header('Group', resources.group.name, 'users') }}
+          {{ add_tab_navigation_header('Group', resource.name, 'users') }}
           {{ add_tab_navigation_item('general', 'General', active=True) }}
           {{ add_tab_navigation_item('members', 'Members') }}
           {{ add_tab_navigation_item('fallbacks', 'Fallbacks') }}
         {% endcall %}
 
-      {% call build_form(action=url_for('.GroupView:put', id=resources.group.id)) %}
+      {% call build_form(action=url_for('.GroupView:put', id=resource.id)) %}
         {% call build_tabs_content() %}
 
           {% call build_tab_content_item('general', active=True) %}

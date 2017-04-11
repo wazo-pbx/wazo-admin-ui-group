@@ -8,31 +8,27 @@ from wazo_admin_ui.helpers.confd import confd
 
 class GroupService(BaseConfdExtensionService):
 
-    resource_name = 'group'
     resource_confd = 'groups'
 
-    def create(self, resources):
-        resource = super(GroupService, self).create(resources)
-        del resources['group']['fallbacks']
-        self._update_members(resources, resource)
+    def create(self, resource):
+        resource_created = super(GroupService, self).create(resource)
+        resource['id'] = resource_created['id']
+        del resource['fallbacks']
+        self._update_members(resource)
 
-    def update(self, resources):
-        super(GroupService, self).update(resources)
-        self._update_members(resources)
+    def update(self, resource):
+        super(GroupService, self).update(resource)
+        self._update_members(resource)
 
-    def _update_members(self, resources, resource=None):
-        group = resources.get(self.resource_name)
+    def _update_members(self, group):
         members = group.get('users')
         fallbacks = group.get('fallbacks')
 
-        if resource is None:
-            resource = group['id']
-
         if members:
-            self._update_members_to_group(resource, self._generate_users(members))
+            self._update_members_to_group(group, self._generate_users(members))
 
         if fallbacks:
-            self._update_fallbacks_to_group(resource, fallbacks)
+            self._update_fallbacks_to_group(group, fallbacks)
 
     def _update_members_to_group(self, group, members):
         return confd.groups.relations(group).update_user_members(members)
