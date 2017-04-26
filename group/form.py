@@ -9,7 +9,8 @@ from wtforms.fields import (SubmitField,
                             SelectField,
                             SelectMultipleField,
                             BooleanField)
-from wtforms.validators import InputRequired
+from wtforms.fields.html5 import IntegerField
+from wtforms.validators import InputRequired, Length, NumberRange
 
 from wazo_admin_ui.helpers.destination import FallbacksForm, DestinationHiddenField
 from wazo_admin_ui.helpers.form import BaseForm
@@ -21,7 +22,7 @@ class ExtensionForm(BaseForm):
 
 
 class GroupForm(BaseForm):
-    name = StringField('Name', [InputRequired()])
+    name = StringField('Name', [InputRequired(), Length(max=128)])
     extensions = FieldList(FormField(ExtensionForm), min_entries=1)
     users = SelectMultipleField('Members', choices=[])
     caller_id_mode = SelectField('Callerid mode', choices=[
@@ -30,11 +31,11 @@ class GroupForm(BaseForm):
                                                       ('overwrite', 'Overwrite'),
                                                       ('append', 'Append')
                                                   ])
-    caller_id_name = StringField('Callerid name')
+    caller_id_name = StringField('Callerid name', [Length(max=80)])
     enabled = BooleanField('Enabled')
-    music_on_hold = SelectField('Music On Hold', choices=[])
-    preprocess_subroutine = StringField('Subroutine')
-    retry_delay = StringField('Retry delay')
+    music_on_hold = SelectField('Music On Hold', [Length(max=128)], choices=[])
+    preprocess_subroutine = StringField('Subroutine', [Length(max=39)])
+    retry_delay = IntegerField('Retry delay', [NumberRange(min=0)])
     ring_in_use = BooleanField('Ring in use')
     ring_strategy = SelectField('Ring strategy', choices=[
                                                      ('all', 'All'),
@@ -45,8 +46,8 @@ class GroupForm(BaseForm):
                                                      ('memorized_round_robin', 'Memorized round robin'),
                                                      ('weight_random', 'Weight random')
                                                  ])
-    timeout = StringField('Timeout')
-    user_timeout = StringField('User timeout')
+    timeout = IntegerField('Timeout', [NumberRange(min=0)])
+    user_timeout = IntegerField('User timeout', [NumberRange(min=0)])
     fallbacks = FormField(FallbacksForm)
     submit = SubmitField('Submit')
 
@@ -54,6 +55,6 @@ class GroupForm(BaseForm):
 class GroupDestinationForm(BaseForm):
     setted_value_template = u'{group_name}'
 
-    group_id = SelectField('Group', choices=[])
-    ring_time = StringField('Ring Time')
+    group_id = SelectField('Group', [InputRequired()], choices=[])
+    ring_time = IntegerField('Ring Time', [NumberRange(min=0)])
     group_name = DestinationHiddenField()
