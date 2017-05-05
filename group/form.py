@@ -5,6 +5,7 @@
 from wtforms.fields import (SubmitField,
                             FieldList,
                             FormField,
+                            HiddenField,
                             StringField,
                             SelectField,
                             SelectMultipleField,
@@ -21,10 +22,21 @@ class ExtensionForm(BaseForm):
     context = SelectField('Context', choices=[])
 
 
+class UserForm(BaseForm):
+    uuid = HiddenField()
+    firstname = HiddenField()
+    lastname = HiddenField()
+
+
+class MembersForm(BaseForm):
+    user_uuids = SelectMultipleField('Members', choices=[])
+    users = FieldList(FormField(UserForm))
+
+
 class GroupForm(BaseForm):
     name = StringField('Name', [InputRequired(), Length(max=128)])
     extensions = FieldList(FormField(ExtensionForm), min_entries=1)
-    users = SelectMultipleField('Members', choices=[])
+    members = FormField(MembersForm)
     caller_id_mode = SelectField('Callerid mode', choices=[
                                                       ('', 'None'),
                                                       ('prepend', 'Prepend'),
