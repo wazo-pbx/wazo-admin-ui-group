@@ -21,20 +21,17 @@ class GroupService(BaseConfdExtensionService):
         self._update_members(resource)
 
     def _update_members(self, group):
-        members = group.get('users')
+        members = group.get('members')
         fallbacks = group.get('fallbacks')
 
         if members:
-            self._update_members_to_group(group, self._generate_users(members))
+            self._update_members_to_group(group, members)
 
         if fallbacks:
             self._update_fallbacks_to_group(group, fallbacks)
 
     def _update_members_to_group(self, group, members):
-        return confd.groups.relations(group).update_user_members(members)
+        return confd.groups.relations(group).update_user_members(members.get('users'))
 
     def _update_fallbacks_to_group(self, group, fallbacks):
         return confd.groups.relations(group).update_fallbacks(fallbacks)
-
-    def _generate_users(self, users):
-        return [{'uuid': user} for user in users]

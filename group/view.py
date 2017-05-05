@@ -54,6 +54,11 @@ class GroupView(BaseView):
             return []
         return [(moh.data, moh.data)]
 
+    def _map_form_to_resources(self, form, form_id=None):
+        resource = super(GroupView, self)._map_form_to_resources(form, form_id)
+        resource['members']['users'] = [{'uuid': user_uuid} for user_uuid in form.members.user_uuids.data]
+        return resource
+
     def _map_resources_to_form_errors(self, form, resources):
         form.populate_errors(resources.get('group', {}))
         form.extensions[0].populate_errors(resources.get('extension', {}))
