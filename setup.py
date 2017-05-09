@@ -23,7 +23,7 @@ setup(
 
     entry_points={
         'wazo_admin_ui.plugins': [
-            'group = group.plugin:Plugin',
+            'group = wazo_plugind_admin_ui_group_official.plugin:Plugin',
         ]
     }
 )
