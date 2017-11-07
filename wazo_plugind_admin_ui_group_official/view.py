@@ -26,12 +26,12 @@ class GroupView(BaseView):
         return form
 
     def _populate_form(self, form):
-        form.members.user_uuids.choices = self._build_setted_choices_users(form.members.users)
-        form.extensions[0].context.choices = self._build_setted_choices_context(form.extensions[0])
-        form.music_on_hold.choices = self._build_setted_choices_moh(form.music_on_hold)
+        form.members.user_uuids.choices = self._build_set_choices_users(form.members.users)
+        form.extensions[0].context.choices = self._build_set_choices_context(form.extensions[0])
+        form.music_on_hold.choices = self._build_set_choices_moh(form.music_on_hold)
         return form
 
-    def _build_setted_choices_users(self, users):
+    def _build_set_choices_users(self, users):
         results = []
         for user in users:
             if user.lastname.data:
@@ -41,12 +41,12 @@ class GroupView(BaseView):
             results.append((user.uuid.data, text))
         return results
 
-    def _build_setted_choices_context(self, extension):
+    def _build_set_choices_context(self, extension):
         if not extension.context.data or extension.context.data == 'None':
             return []
         return [(extension.context.data, extension.context.data)]
 
-    def _build_setted_choices_moh(self, moh):
+    def _build_set_choices_moh(self, moh):
         if not moh.data or moh.data == 'None':
             return []
         return [(moh.data, moh.data)]

@@ -64,7 +64,7 @@ class GroupForm(BaseForm):
 
 
 class GroupDestinationForm(BaseForm):
-    setted_value_template = '{group_name}'
+    set_value_template = '{group_name}'
 
     group_id = SelectField('Group', [InputRequired()], choices=[])
     ring_time = IntegerField('Ring Time', [NumberRange(min=0)])
