@@ -1,6 +1,6 @@
 name: admin-ui-group
 namespace: official
-version: 0.0.2
+version: 1.0.0
 author: Wazo Team
 display_name: Groups
 min_wazo_version: 17.16
