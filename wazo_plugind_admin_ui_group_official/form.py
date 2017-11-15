@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0+
 
@@ -65,7 +64,7 @@ class GroupForm(BaseForm):
 
 
 class GroupDestinationForm(BaseForm):
-    setted_value_template = u'{group_name}'
+    set_value_template = '{group_name}'
 
     group_id = SelectField('Group', [InputRequired()], choices=[])
     ring_time = IntegerField('Ring Time', [NumberRange(min=0)])
