@@ -32,10 +32,16 @@ class MembersForm(BaseForm):
     users = FieldList(FormField(UserForm))
 
 
+class ScheduleForm(BaseForm):
+    id = SelectField('Schedule', choices=[])
+    name = HiddenField()
+
+
 class GroupForm(BaseForm):
     name = StringField('Name', [InputRequired(), Length(max=128)])
     extensions = FieldList(FormField(ExtensionForm), min_entries=1)
     members = FormField(MembersForm)
+    schedules = FieldList(FormField(ScheduleForm), min_entries=1)
     caller_id_mode = SelectField('Callerid mode', choices=[
                                                       ('', 'None'),
                                                       ('prepend', 'Prepend'),
