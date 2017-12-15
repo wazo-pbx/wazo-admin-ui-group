@@ -43,7 +43,7 @@ class GroupService(BaseConfdExtensionService):
         if schedules[0].get('id'):
             confd.groups(group).add_schedule(schedules[0])
         else:
-            confd_group = confd.groups.get(group)
-            if confd_group and confd_group['schedules']:
-                schedule_id = confd_group['schedules'][0]['id']
+            existing_group = confd.groups.get(group)
+            if existing_group and existing_group['schedules']:
+                schedule_id = existing_group['schedules'][0]['id']
                 confd.groups(group).remove_schedule(schedule_id)
