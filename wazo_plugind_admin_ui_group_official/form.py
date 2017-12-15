@@ -32,10 +32,14 @@ class MembersForm(BaseForm):
     users = FieldList(FormField(UserForm))
 
 
+class ScheduleForm(BaseForm):
+    id = SelectField('Schedule', choices=[])
+    name = HiddenField()
+
+
 class GroupForm(BaseForm):
     name = StringField('Name', [InputRequired(), Length(max=128)])
     extensions = FieldList(FormField(ExtensionForm), min_entries=1)
-    members = FormField(MembersForm)
     caller_id_mode = SelectField('Callerid mode', choices=[
                                                       ('', 'None'),
                                                       ('prepend', 'Prepend'),
@@ -59,7 +63,9 @@ class GroupForm(BaseForm):
                                                  ])
     timeout = IntegerField('Timeout', [NumberRange(min=0)])
     user_timeout = IntegerField('User timeout', [NumberRange(min=0)])
+    members = FormField(MembersForm)
     fallbacks = FormField(FallbacksForm)
+    schedules = FieldList(FormField(ScheduleForm), min_entries=1)
     submit = SubmitField('Submit')
 
 

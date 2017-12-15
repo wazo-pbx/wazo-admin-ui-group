@@ -29,6 +29,7 @@ class GroupView(BaseView):
         form.members.user_uuids.choices = self._build_set_choices_users(form.members.users)
         form.extensions[0].context.choices = self._build_set_choices_context(form.extensions[0])
         form.music_on_hold.choices = self._build_set_choices_moh(form.music_on_hold)
+        form.schedules[0].form.id.choices = self._build_set_choices_schedule(form.schedules[0])
         return form
 
     def _build_set_choices_users(self, users):
@@ -50,6 +51,11 @@ class GroupView(BaseView):
         if not moh.data or moh.data == 'None':
             return []
         return [(moh.data, moh.data)]
+
+    def _build_set_choices_schedule(self, schedule):
+        if not schedule.form.id.data or schedule.form.id.data == 'None':
+            return []
+        return [(schedule.form.id.data, schedule.form.name.data)]
 
     def _map_form_to_resources(self, form, form_id=None):
         resource = super(GroupView, self)._map_form_to_resources(form, form_id)
