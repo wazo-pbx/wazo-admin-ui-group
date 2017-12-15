@@ -23,10 +23,17 @@
               {{ render_field(form.name) }}
               {{ render_field(form.extensions[0].exten,
                               data_allow_custom_values=True,
-                              data_available_extension_href=url_for(listing_urls['available_extension'])) }}
+                              data_allow_clear=True,
+                              divclass='col-sm-2',
+                              inputclass='ui-helper-clearfix',
+                              class_='group-exten',
+                              data_available_extension_href=url_for(listing_urls['available_extension_group'])) }}
               {{ render_field(form.extensions[0].context,
-                              data_listing_href=url_for(listing_urls['context_by_type'],
-                              type_='internal')) }}
+                              with_label=False,
+                              divclass='col-sm-4',
+                              class_='group-context',
+                              placeholder='Choose Context',
+                              data_listing_href=url_for(listing_urls['context_by_type'], type_='internal')) }}
               {{ render_field(form.caller_id_mode) }}
               {{ render_field(form.caller_id_name) }}
               {{ render_field(form.enabled) }}
@@ -67,4 +74,8 @@
       {% endcall %}
     {% endcall %}
   {% endcall %}
+{% endblock %}
+
+{% block additional_js %}
+  <script src="{{ url_for('.static', filename='js/group.js') }}"></script>
 {% endblock %}

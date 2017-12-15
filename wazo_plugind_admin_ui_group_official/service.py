@@ -47,3 +47,13 @@ class GroupService(BaseConfdExtensionService):
             if existing_group['schedules']:
                 schedule_id = existing_group['schedules'][0]['id']
                 confd.groups(group).remove_schedule(schedule_id)
+
+    def get_first_internal_context(self):
+        result = confd.contexts.list(type='internal', limit=1, direction='asc', order='id')
+        for context in result['items']:
+            return context
+
+    def get_context(self, context):
+        result = confd.contexts.list(name=context)
+        for context in result['items']:
+            return context
