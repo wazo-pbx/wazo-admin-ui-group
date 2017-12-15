@@ -33,12 +33,26 @@
       {% call build_form() %}
         {% call add_default_fields(form=form, submit_value="Add") %}
           {{ render_field(form.name) }}
-          {{ render_field(form.extensions[0].exten) }}
+          {{ render_field(form.extensions[0].exten,
+                          data_allow_custom_values=True,
+                          data_allow_clear=True,
+                          divclass='col-sm-4',
+                          inputclass='ui-helper-clearfix',
+                          class_='group-exten',
+                          data_available_extension_href=url_for(listing_urls['available_extension_group'])) }}
           {{ render_field(form.extensions[0].context,
+                          with_label=False,
+                          divclass='col-sm-4',
+                          class_='group-context',
+                          placeholder='Choose Context',
                           data_listing_href=url_for(listing_urls['context_by_type'], type_='internal')) }}
           {{ render_field(form.members.user_uuids, data_listing_href=url_for(listing_urls['uuid_user'])) }}
         {% endcall %}
       {% endcall %}
     {% endcall %}
   </section>
+{% endblock %}
+
+{% block additional_js %}
+  <script src="{{ url_for('.static', filename='js/group.js') }}"></script>
 {% endblock %}

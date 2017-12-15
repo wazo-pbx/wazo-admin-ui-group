@@ -27,6 +27,7 @@ class GroupView(BaseView):
 
     def _populate_form(self, form):
         form.members.user_uuids.choices = self._build_set_choices_users(form.members.users)
+        form.extensions[0].exten.choices = self._build_set_choices_exten(form.extensions[0])
         form.extensions[0].context.choices = self._build_set_choices_context(form.extensions[0])
         form.music_on_hold.choices = self._build_set_choices_moh(form.music_on_hold)
         form.schedules[0].form.id.choices = self._build_set_choices_schedule(form.schedules[0])
@@ -42,9 +43,20 @@ class GroupView(BaseView):
             results.append((user.uuid.data, text))
         return results
 
+    def _build_set_choices_exten(self, extension):
+        if not extension.exten.data or extension.exten.data == 'None':
+            return []
+        return [(extension.exten.data, extension.exten.data)]
+
     def _build_set_choices_context(self, extension):
         if not extension.context.data or extension.context.data == 'None':
-            return []
+            context = self.service.get_first_internal_context()
+        else:
+            context = self.service.get_context(extension.context.data)
+
+        if context:
+            return [(context['name'], context['label'])]
+
         return [(extension.context.data, extension.context.data)]
 
     def _build_set_choices_moh(self, moh):
