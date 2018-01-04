@@ -40,13 +40,12 @@ class GroupService(BaseConfdExtensionService):
         return confd.groups.relations(group).update_fallbacks(fallbacks)
 
     def _update_schedules_to_group(self, group, schedules):
+        existing_group = confd.groups.get(group)
+        if existing_group['schedules']:
+            schedule_id = existing_group['schedules'][0]['id']
+            confd.groups(group).remove_schedule(schedule_id)
         if schedules[0].get('id'):
             confd.groups(group).add_schedule(schedules[0])
-        else:
-            existing_group = confd.groups.get(group)
-            if existing_group['schedules']:
-                schedule_id = existing_group['schedules'][0]['id']
-                confd.groups(group).remove_schedule(schedule_id)
 
     def get_first_internal_context(self):
         result = confd.contexts.list(type='internal', limit=1, direction='asc', order='id')
