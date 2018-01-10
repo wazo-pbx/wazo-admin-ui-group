@@ -19,7 +19,7 @@ from wazo_admin_ui.helpers.form import BaseForm
 
 class ExtensionForm(BaseForm):
     exten = SelectField(choices=[])
-    context = SelectField('Context', choices=[])
+    context = SelectField(l_('Context'), choices=[])
 
 
 class UserForm(BaseForm):
@@ -29,57 +29,57 @@ class UserForm(BaseForm):
 
 
 class MembersForm(BaseForm):
-    user_uuids = SelectMultipleField('Members', choices=[])
+    user_uuids = SelectMultipleField(l_('Members'), choices=[])
     users = FieldList(FormField(UserForm))
 
 
 class ScheduleForm(BaseForm):
-    id = SelectField('Schedule', choices=[])
+    id = SelectField(l_('Schedule'), choices=[])
     name = HiddenField()
 
 
 class GroupForm(BaseForm):
-    name = StringField('Name', [InputRequired(), Length(max=128)])
+    name = StringField(l_('Name'), [InputRequired(), Length(max=128)])
     extensions = FieldList(FormField(ExtensionForm), min_entries=1)
-    caller_id_mode = SelectField('Callerid mode', choices=[
-                                                      ('', 'None'),
-                                                      ('prepend', 'Prepend'),
-                                                      ('overwrite', 'Overwrite'),
-                                                      ('append', 'Append')
+    caller_id_mode = SelectField(l_('Callerid mode'), choices=[
+                                                      ('', l_('None')),
+                                                      ('prepend', l_('Prepend')),
+                                                      ('overwrite', l_('Overwrite')),
+                                                      ('append', l_('Append'))
                                                   ])
-    caller_id_name = StringField('Callerid name', [Length(max=80)])
-    enabled = BooleanField('Enabled')
-    music_on_hold = SelectField('Music On Hold', [Length(max=128)], choices=[])
-    preprocess_subroutine = StringField('Subroutine', [Length(max=39)])
-    retry_delay = IntegerField('Retry delay', [NumberRange(min=0)])
-    ring_in_use = BooleanField('Ring in use')
-    ring_strategy = SelectField('Ring strategy', choices=[
-                                                     ('all', 'All'),
-                                                     ('random', 'Random'),
-                                                     ('least_recent', 'Least recent'),
-                                                     ('linear', 'Linear'),
-                                                     ('fewest_calls', 'Fewest calls'),
-                                                     ('memorized_round_robin', 'Memorized round robin'),
-                                                     ('weight_random', 'Weight random')
+    caller_id_name = StringField(l_('Callerid name'), [Length(max=80)])
+    enabled = BooleanField(l_('Enabled'))
+    music_on_hold = SelectField(l_('Music On Hold'), [Length(max=128)], choices=[])
+    preprocess_subroutine = StringField(l_('Subroutine'), [Length(max=39)])
+    retry_delay = IntegerField(l_('Retry delay'), [NumberRange(min=0)])
+    ring_in_use = BooleanField(l_('Ring in use'))
+    ring_strategy = SelectField(l_('Ring strategy'), choices=[
+                                                     ('all', l_('All')),
+                                                     ('random', l_('Random')),
+                                                     ('least_recent', l_('Least recent')),
+                                                     ('linear', l_('Linear')),
+                                                     ('fewest_calls', l_('Fewest calls')),
+                                                     ('memorized_round_robin', l_('Memorized round robin')),
+                                                     ('weight_random', l_('Weight random'))
                                                  ])
-    timeout = IntegerField('Timeout', [NumberRange(min=0)])
-    user_timeout = IntegerField('User timeout', [NumberRange(min=0)])
+    timeout = IntegerField(l_('Timeout'), [NumberRange(min=0)])
+    user_timeout = IntegerField(l_('User timeout'), [NumberRange(min=0)])
     members = FormField(MembersForm)
     fallbacks = FormField(FallbacksForm)
     schedules = FieldList(FormField(ScheduleForm), min_entries=1)
-    submit = SubmitField('Submit')
+    submit = SubmitField(l_('Submit'))
 
 
 class GroupDestinationForm(BaseForm):
     set_value_template = '{group_name}'
 
-    group_id = SelectField('Group', [InputRequired()], choices=[])
-    ring_time = IntegerField('Ring Time', [NumberRange(min=0)])
+    group_id = SelectField(l_('Group'), [InputRequired()], choices=[])
+    ring_time = IntegerField(l_('Ring Time'), [NumberRange(min=0)])
     group_name = DestinationHiddenField()
 
 
 class GroupFuncKeyDestinationForm(BaseForm):
     set_value_template = '{group_name}'
 
-    group_id = SelectField('Group', [InputRequired()], choices=[])
+    group_id = SelectField(l_('Group'), [InputRequired()], choices=[])
     group_name = DestinationHiddenField()

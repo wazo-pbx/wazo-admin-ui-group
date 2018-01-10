@@ -27,7 +27,7 @@ class Plugin(object):
         GroupDestinationView.service = GroupService()
         GroupDestinationView.register(group, route_base='/group_destination')
 
-        register_destination_form('group', 'Group', GroupDestinationForm)
+        register_destination_form('group', l_('Group'), GroupDestinationForm)
         register_funckey_destination_form('group', l_('Group'), GroupFuncKeyDestinationForm)
         register_listing_url('group', 'group.GroupDestinationView:list_json')
 

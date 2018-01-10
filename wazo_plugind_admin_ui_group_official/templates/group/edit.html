@@ -1,25 +1,25 @@
 {% extends "layout.html" %}
 
 {% block content_header %}
-  {{ build_breadcrumb('Groups', '', 'users', ['List']) }}
+  {{ build_breadcrumb(_('Groups'), '', 'users', ['List']) }}
 {% endblock %}
 
 {% block content %}
   {% call build_section_row() %}
     {% call build_form_tabs_box() %}
         {% call build_tabs_navigation() %}
-          {{ add_tab_navigation_header('Group', resource.name, 'users') }}
-          {{ add_tab_navigation_item('general', 'General', active=True) }}
-          {{ add_tab_navigation_item('members', 'Members') }}
-          {{ add_tab_navigation_item('fallbacks', 'Fallbacks') }}
-          {{ add_tab_navigation_item('schedule', 'Schedule') }}
+          {{ add_tab_navigation_header(_('Group'), resource.name, 'users') }}
+          {{ add_tab_navigation_item('general', _('General'), active=True) }}
+          {{ add_tab_navigation_item('members', _('Members')) }}
+          {{ add_tab_navigation_item('fallbacks', _('Fallbacks')) }}
+          {{ add_tab_navigation_item('schedule', _('Schedule')) }}
         {% endcall %}
 
       {% call build_form(action=url_for('.GroupView:put', id=resource.id)) %}
         {% call build_tabs_content() %}
 
           {% call build_tab_content_item('general', active=True) %}
-            {% call add_default_fields(form=form, submit_value="Update") %}
+            {% call add_default_fields(form=form, submit_value=_('Update')) %}
               {{ render_field(form.name) }}
               {{ render_field(form.extensions[0].exten,
                               data_allow_custom_values=True,
@@ -32,7 +32,7 @@
                               with_label=False,
                               divclass='col-sm-4',
                               class_='group-context',
-                              placeholder='Choose Context',
+                              placeholder=_('Choose Context'),
                               data_listing_href=url_for(listing_urls['context_by_type'], type_='internal')) }}
               {{ render_field(form.caller_id_mode) }}
               {{ render_field(form.caller_id_name) }}
@@ -48,25 +48,25 @@
           {% endcall %}
 
           {% call build_tab_content_item('members') %}
-            {% call add_default_fields(form=form, submit_value="Update") %}
+            {% call add_default_fields(form=form, submit_value=_('Update')) %}
               {{ render_field(form.members.user_uuids, data_listing_href=url_for(listing_urls['uuid_user'])) }}
               {{ render_field(form.members.users, with_label=False) }}
             {% endcall %}
           {% endcall %}
 
           {% call build_tab_content_item('fallbacks') %}
-            {% call add_default_fields(form=form, submit_value="Update") %}
+            {% call add_default_fields(form=form, submit_value=_('Update')) %}
               {{ render_field(form.fallbacks.noanswer_destination) }}
             {% endcall %}
           {% endcall %}
 
           {% call build_tab_content_item('schedule') %}
-            {% call add_default_fields(form=form, submit_value="Update") %}
+            {% call add_default_fields(form=form, submit_value=_('Update')) %}
                 {{ render_field(form.schedules[0]['name']) }}
                 {{ render_field(form.schedules[0]['id'],
                                 data_listing_href=url_for(listing_urls['schedule']),
                                 data_allow_clear=True,
-                                data_placeholder='Choose Schedules') }}
+                                data_placeholder=_('Choose Schedules')) }}
             {% endcall %}
           {% endcall %}
 
