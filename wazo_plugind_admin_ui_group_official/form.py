@@ -1,6 +1,7 @@
 # Copyright 2017 The Wazo Authors  (see the AUTHORS file)
 # SPDX-License-Identifier: GPL-3.0+
 
+from flask_babel import lazy_gettext as l_
 from wtforms.fields import (SubmitField,
                             FieldList,
                             FormField,
@@ -74,4 +75,11 @@ class GroupDestinationForm(BaseForm):
 
     group_id = SelectField('Group', [InputRequired()], choices=[])
     ring_time = IntegerField('Ring Time', [NumberRange(min=0)])
+    group_name = DestinationHiddenField()
+
+
+class GroupFuncKeyDestinationForm(BaseForm):
+    set_value_template = '{group_name}'
+
+    group_id = SelectField('Group', [InputRequired()], choices=[])
     group_name = DestinationHiddenField()
