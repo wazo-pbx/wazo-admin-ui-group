@@ -38,6 +38,11 @@ class ScheduleForm(BaseForm):
     name = HiddenField()
 
 
+class CallpermissionsForm(BaseForm):
+    id = SelectField(l_('Call Permissions'), choices=[])
+    name = HiddenField()
+
+
 class GroupForm(BaseForm):
     name = StringField(l_('Name'), [InputRequired(), Length(max=128)])
     extensions = FieldList(FormField(ExtensionForm), min_entries=1)
@@ -67,6 +72,7 @@ class GroupForm(BaseForm):
     members = FormField(MembersForm)
     fallbacks = FormField(FallbacksForm)
     schedules = FieldList(FormField(ScheduleForm), min_entries=1)
+    call_permissions = FieldList(FormField(CallpermissionsForm), min_entries=1)
     submit = SubmitField(l_('Submit'))
 
 
