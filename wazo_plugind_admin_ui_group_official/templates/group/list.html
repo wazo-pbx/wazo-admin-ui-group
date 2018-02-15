@@ -1,12 +1,12 @@
 {% extends "layout.html" %}
 
 {% block content_header %}
-  {{ build_breadcrumb('Groups', '', 'users', ['List']) }}
+  {{ build_breadcrumb(_('Groups'), '', 'users', [_('List')]) }}
 {% endblock %}
 
 {% block content %}
   <section class="content">
-    {% call build_list_containers('Group', 'users') %}
+    {% call build_list_containers(_('Group'), 'users') %}
       {% call build_list_table() %}
         {% call build_list_table_headers(get=url_for('.GroupView:get', id=''), delete=url_for('.GroupView:delete', id='')) %}
           <th>Name</th>
@@ -29,9 +29,9 @@
       {% endcall %}
     {% endcall %}
 
-    {% call build_hidden_add_containers('Add Group') %}
+    {% call build_hidden_add_containers(_('Add Group')) %}
       {% call build_form() %}
-        {% call add_default_fields(form=form, submit_value="Add") %}
+        {% call add_default_fields(form=form, submit_value=_('Add')) %}
           {{ render_field(form.name) }}
           {{ render_field(form.extensions[0].exten,
                           data_allow_custom_values=True,
@@ -44,7 +44,7 @@
                           with_label=False,
                           divclass='col-sm-4',
                           class_='group-context',
-                          placeholder='Choose Context',
+                          placeholder=_('Choose Context'),
                           data_listing_href=url_for(listing_urls['context_by_type'], type_='internal')) }}
           {{ render_field(form.members.user_uuids, data_listing_href=url_for(listing_urls['uuid_user'])) }}
         {% endcall %}
