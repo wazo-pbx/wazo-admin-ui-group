@@ -20,8 +20,8 @@ class GroupView(BaseView):
         return super(GroupView, self).index()
 
     def _map_resources_to_form(self, resource):
-        users = [user['uuid'] for user in resource['members']['users']]
-        resource['members']['user_uuids'] = users
+        resource['members']['user_uuids'] = [user['uuid'] for user in resource['members']['users']]
+        resource['call_permission_ids'] = [call_permission['id'] for call_permission in resource['call_permissions']]
         form = self.form(data=resource)
         return form
 
@@ -31,7 +31,7 @@ class GroupView(BaseView):
         form.extensions[0].context.choices = self._build_set_choices_context(form.extensions[0])
         form.music_on_hold.choices = self._build_set_choices_moh(form.music_on_hold)
         form.schedules[0].form.id.choices = self._build_set_choices_schedule(form.schedules[0])
-        form.call_permissions[0].form.id.choices = self._build_set_choices_callpermissions(form.call_permissions[0])
+        form.call_permission_ids.choices = self._build_set_choices_callpermissions(form.call_permissions)
         return form
 
     def _build_set_choices_users(self, users):
@@ -70,14 +70,19 @@ class GroupView(BaseView):
             return []
         return [(schedule.form.id.data, schedule.form.name.data)]
 
-    def _build_set_choices_callpermissions(self, callpermissions):
-        if not callpermissions.form.id.data or callpermissions.form.id.data == 'None':
-            return []
-        return [(callpermissions.form.id.data, callpermissions.form.name.data)]
+    def _build_set_choices_callpermissions(self, call_permissions):
+        results = []
+        for call_permission in call_permissions:
+            if not call_permission.form.id.data or call_permission.form.id.data == 'None':
+                return []
+            results.append((call_permission.form.id.data, call_permission.form.name.data))
+        return results
 
     def _map_form_to_resources(self, form, form_id=None):
         resource = super(GroupView, self)._map_form_to_resources(form, form_id)
         resource['members']['users'] = [{'uuid': user_uuid} for user_uuid in form.members.user_uuids.data]
+        resource['call_permissions'] = [{'id': call_permission_id} for call_permission_id in
+                                        form.call_permission_ids.data]
         return resource
 
     def _map_resources_to_form_errors(self, form, resources):

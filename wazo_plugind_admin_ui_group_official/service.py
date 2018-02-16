@@ -53,11 +53,11 @@ class GroupService(BaseConfdExtensionService):
 
     def _update_callpermissions_relations(self, group, call_permissions, existing_group):
         if existing_group and existing_group.get('call_permissions'):
-            call_permission_id = existing_group['call_permissions'][0]['id']
-            confd.groups(group).remove_call_permission(call_permission_id)
+            for existing_call_permission in existing_group['call_permissions']:
+                confd.groups(group).remove_call_permission(existing_call_permission['id'])
 
-        if call_permissions[0].get('id'):
-            confd.groups(group).add_call_permission(call_permissions[0])
+        for call_permission in call_permissions:
+            confd.groups(group).add_call_permission(call_permission['id'])
 
     def get_first_internal_context(self):
         result = confd.contexts.list(type='internal', limit=1, direction='asc', order='id')
