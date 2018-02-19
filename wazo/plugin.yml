@@ -1,6 +1,6 @@
 name: admin-ui-group
 namespace: official
-version: 1.1.1-5
+version: 1.2.0-1
 author: Wazo Team
 display_name: Groups
 min_wazo_version: 18.02
@@ -13,4 +13,6 @@ depends:
   - name: admin-ui-extension
     namespace: official
   - name: admin-ui-schedule
+    namespace: official
+  - name: admin-ui-callpermission
     namespace: official
