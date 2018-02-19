@@ -14,5 +14,3 @@ depends:
     namespace: official
   - name: admin-ui-schedule
     namespace: official
-  - name: admin-ui-call-permission
-    namespace: official
