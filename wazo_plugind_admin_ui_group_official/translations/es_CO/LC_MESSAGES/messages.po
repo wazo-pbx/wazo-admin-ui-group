@@ -1,14 +1,14 @@
-# Translations template for wazo-admin-ui-group.
+# Translations template for wazo_admin_ui_group.
 # Copyright (C) 2018 The Wazo Authors  (see the AUTHORS file)
 # This file is distributed under the same license as the
-# wazo-admin-ui-group project.
+# wazo_admin_ui_group project.
 # Wazo Dev Team <dev@wazo.community>, 2018.
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: wazo-admin-ui-group 0.1\n"
+"Project-Id-Version: wazo_admin_ui_group 0.1\n"
 "Report-Msgid-Bugs-To: 'dev@wazo.community'\n"
-"POT-Creation-Date: 2018-02-23 15:39-0500\n"
+"POT-Creation-Date: 2018-02-27 12:03-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Language-Team: Spanish (Colombia) (https://www.transifex.com/wazo/teams/69545/es_CO/)\n"
 "MIME-Version: 1.0\n"
@@ -33,6 +33,7 @@ msgid "Schedule"
 msgstr ""
 
 #: wazo_plugind_admin_ui_group_official/form.py:49
+#: wazo_plugind_admin_ui_group_official/templates/group/list.html:12
 msgid "Name"
 msgstr ""
 
@@ -150,6 +151,10 @@ msgstr ""
 
 #: wazo_plugind_admin_ui_group_official/templates/group/edit.html:79
 msgid "Choose Call Permissions"
+msgstr ""
+
+#: wazo_plugind_admin_ui_group_official/templates/group/list.html:13
+msgid "Extension"
 msgstr ""
 
 #: wazo_plugind_admin_ui_group_official/templates/group/list.html:19
